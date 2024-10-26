@@ -8,15 +8,14 @@ BEGIN
     -- Combined query to fetch user and client details in one go
     DECLARE @UserPwdHash VARBINARY(256),
             @UserSalt VARBINARY(256),
-            @ClientSecret VARBINARY(256),
-            @ClientIV VARBINARY(256);
+            @ClientSecret VARBINARY(256)
 
     -- Fetch both user and client data using a single query with LEFT JOIN
     SELECT 
         @UserPwdHash = u.[pwdhash], 
         @UserSalt = u.[salt],
-        @ClientSecret = c.[secret], 
-        @ClientIV = c.[iv]
+        @ClientSecret = c.[secret]
+
     FROM [dbo].[hashed] u
     LEFT JOIN [dbo].[Clients] c
     ON c.[ID] = @ClientId
@@ -38,8 +37,7 @@ BEGIN
     SELECT 
         @UserPwdHash AS PwdHash,
         @UserSalt AS Salt,
-        @ClientSecret AS ClientSecret,
-        @ClientIV AS ClientIV;
+        @ClientSecret AS ClientSecret
 
 END
 
