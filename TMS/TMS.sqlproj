@@ -14,6 +14,7 @@
     <None Include="Post Development\Script.AddAssemblies.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Post Development\Script.AddFunctions.sql" />
     <PostDeploy Include="Post Development\Script.EnableClrIntegration.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
