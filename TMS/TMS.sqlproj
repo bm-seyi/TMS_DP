@@ -8,7 +8,13 @@
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
   <ItemGroup>
-    <PostDeploy Include="Script.EnableClrIntegration.sql" />
+    <Folder Include="Post Development" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Post Development\Script.AddAssemblies.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Post Development\Script.EnableClrIntegration.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

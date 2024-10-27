@@ -13,3 +13,11 @@ First development version
 
 ### Notes
 -  New files have been generated as a result of the build and publish process.
+
+## 0.0.3
+### Added
+- Developed a [post-development script](./TMS/Script.AddAssemblies.sql) to include the necessary assemblies for executing the main `TmsAuthClr` assembly.
+
+### Notes
+- Created a post-development folder to organize scripts that enhance the project's maintainability.
+- Included comments to ignore `DS224000` since it cannot be resolved. However, all added assemblies are confined to the "safe" permission set.
