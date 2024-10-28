@@ -28,3 +28,19 @@ First development version
 
 ### Removed
 - Removed unnecessary code workspace.
+
+## 0.1.0
+### Added
+- Established a Pre-Deployment directory to organize all pre-deployment scripts.
+- Added [Script.PostOrchestrator.sql](./TMS/Script.PostOrchestrator.sql) and [Script.PreOrchestrator.sql](./TMS/Script.PreOrchestrator.sql) to manage and execute scripts in their designated folders.
+- Introduced .gitignore to prevent sensitive information from being uploaded to the cloud repository.
+
+### Fixed
+- Renamed the Post Development folder to [Post-Deployment](./TMS/Post-Deployment/).
+
+### Notes
+- Excluded bin and 
+obj folder files from tracking, as they are unnecessary for project builds and could pose security risks due to embedded passwords in sqlcmd variables.
+- Future updates will aim to reduce the number of `<ItemGroup/>` entries within [TMS.sqlproj](./TMS/TMS.sqlproj).
+- [Script.AddAssemblies.sql](./TMS/Post-Deployment/Script.AddAssemblies.sql) and [Script.AddFunctions.sql](./TMS/Post-Deployment/Script.AddFunctions.sql) have been commented out; further configuration is required and will be included in the next commit.
+- Project uses Publish Profile to manage sqlcmd variables.

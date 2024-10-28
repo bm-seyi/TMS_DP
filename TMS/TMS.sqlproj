@@ -8,14 +8,32 @@
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Post Development" />
+    <Folder Include="Post-Deployment" />
+    <Folder Include="Pre-Deployment" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Post Development\Script.AddAssemblies.sql" />
+    <None Include="Post-Deployment\Script.AddAssemblies.sql" />
+    <None Include="Post-Deployment\Script.AddFunctions.sql" />
+    <None Include="Post-Deployment\Script.EnableClrIntegration.sql" />
+    <PostDeploy Include="Script.PostOrchestrator.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Post Development\Script.AddFunctions.sql" />
-    <PostDeploy Include="Post Development\Script.EnableClrIntegration.sql" />
+    <None Include="Pre-Deployment\Script.CreateAssembleyKey.sql" />
+    <None Include="Pre-Deployment\Script.CreateMasterKey.sql" />
+    <PreDeploy Include="Script.PreOrchestrator.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Reference the publish profile in the sqlproj file -->
+    <None Include="TMS.publish.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="masterKey">
+      <Value>$(SqlCmdVar__1)</Value>
+      <DefaultValue>
+      </DefaultValue>
+    </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

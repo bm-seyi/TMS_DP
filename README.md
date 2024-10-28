@@ -8,6 +8,16 @@ The Tram Management System (TMS) Database Project is designed to manage database
 - Schema Management: Efficiently organizes and manages database schemas tailored for tram operations.
 - Performance Optimization: Implements indexing strategies to enhance query performance and overall system responsiveness.
 
+## Configuration
+This project requires a Publish Profile. After creating it, please insert the following code just above the `</Project>` tag
+```
+<ItemGroup>
+    <SqlCmdVariable Include="masterKey">
+        <Value>keyValue</Value>
+    </SqlCmdVariable>
+</ItemGroup>
+```
+
 ## Roadmap
 - Future Upgrades: Plans to upgrade the database to support Common Language Runtime (CLR) for improved functionality and performance.
 
