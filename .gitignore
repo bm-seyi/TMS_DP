@@ -1,0 +1,5 @@
+TMS/sqlcmdvars.props
+TMS/bin/
+TMS/obj/
+TMS/TMS.publish.xml
+deploy.sql
