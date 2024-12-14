@@ -1,6 +1,7 @@
 CREATE TABLE [dbo].[Lines]
 (
-  [ID] BIGINT NOT NULL PRIMARY KEY,
+  [ID] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT(newsequentialid()),
+  [OPM_ID] BIGINT NOT NULL,
   [latitude] DECIMAL(9,7) NOT NULL,
   [longitude] DECIMAL(8,7) NOT NULL,
   [LineCode] CHAR(3) NOT NULL,
