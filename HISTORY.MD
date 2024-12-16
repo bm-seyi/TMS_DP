@@ -14,3 +14,7 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 
 ### Fixed/Updated
 - Modified the ID column in [Lines](./TMS/dbo/Tables/Lines.sql), changing its data type from `BIGINT` to `UNIQUEIDENTIFIER`.
+
+## 0.0.4
+### Removed
+- Removed the default value `newsequentialid` from the `ID` column.
