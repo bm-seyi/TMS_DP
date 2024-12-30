@@ -10,6 +10,11 @@
   <ItemGroup>
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="Post-Deployment" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Post-Deployment\Service_Broker.sql" />
+    <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
