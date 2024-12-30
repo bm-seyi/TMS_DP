@@ -18,3 +18,9 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 ## 0.0.4
 ### Removed
 - Removed the default value `newsequentialid` from the `ID` column.
+
+## 0.0.5
+### Added
+- Implemented a [Post-Deployment](./TMS/Script.PostDeployment.sql) script to execute custom SQL commands following deployment.  
+- Developed [Service_Broker](./TMS/Post-Deployment/Service_Broker.sql) script to activate Service Broker on the database.
+
