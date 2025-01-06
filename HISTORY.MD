@@ -24,3 +24,7 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 - Implemented a [Post-Deployment](./TMS/Script.PostDeployment.sql) script to execute custom SQL commands following deployment.  
 - Developed [Service_Broker](./TMS/Post-Deployment/Service_Broker.sql) script to activate Service Broker on the database.
 
+## 0.0.6
+### Fixed/Updated
+- Updated [Script.PostDeployment](./TMS/Script.PostDeployment.sql) to use `\` instead of `/` for compatibility.
+- Corrected [Service_Broker](./TMS/Post-Deployment/Service_Broker.sql) to properly enable the Service Broker.
