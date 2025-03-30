@@ -28,3 +28,19 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 ### Fixed/Updated
 - Updated [Script.PostDeployment](./TMS/Script.PostDeployment.sql) to use `\` instead of `/` for compatibility.
 - Corrected [Service_Broker](./TMS/Post-Deployment/Service_Broker.sql) to properly enable the Service Broker.
+
+## 0.0.7
+### Added
+- New columns `[Project]`, `[Type]`, and `[Content]` to the `ActionLog` table.
+- New `CHECK` constraints: `[chk_Type]` for `Type` column and `[chk_Status]` for `Status` column.
+
+### Fixed / Updated
+- Renamed table `Action_Log` to `ActionLog`.
+- Renamed column `[ID]` to `[Id]`, `[ETL]` to `[Content]`, and `[Group_ID]` to `[GroupId]` for consistency.
+- Updated `CHECK` constraint on `Status` to ensure values are limited to `'Success'` and `'Fail'`.
+- Updated non-clustered index name from `Index_Action_Log_1` to `Idx_ActionLog_CreatedOn`.
+- Commented out `:r .\Post-Deployment\Service_Broker.sql` in `Script.PostDeployment.sql`.
+
+### Removed
+- Dropped `Source` column from `ActionLog` table.
+- Removed outdated `CHECK` constraint `[chk_ETL]` on the `ETL` column.
