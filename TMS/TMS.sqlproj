@@ -14,6 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Post-Deployment\Service_Broker.sql" />
+    <None Include="Post-Deployment\DataChangeQueue.sql" />
     <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">

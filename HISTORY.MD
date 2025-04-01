@@ -44,3 +44,31 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 ### Removed
 - Dropped `Source` column from `ActionLog` table.
 - Removed outdated `CHECK` constraint `[chk_ETL]` on the `ETL` column.
+
+## 0.1.0
+### Added
+- **New DataChangeQueue and Associated Components**  
+  - Created a new `DataChangeQueue.sql` script to define Service Broker components such as:
+    - `Message Type`: `DataChangeMessage`
+    - `Contract`: `DataChangeContract`
+    - `Queue`: `DataChangeQueue`
+    - `Service`: `DataChangeService`
+  
+- **Lines Table Trigger for Data Change Notification**  
+  - Added a trigger `trg_DataChangeNotification` to send notifications for changes (insert, update, delete) in the `Lines` table using the Service Broker.
+
+### Fixed/Updated
+- **Lines Table**  
+  - Corrected column naming conventions for consistency with camelCase (e.g., `OPM_ID` -> `OPM_Id`, `LogID` -> `LogId`).
+
+- **New Post-Deployment Script (`Script.PostDeployment.sql`)**  
+  - Updated the post-deployment script to include the new `Service_Broker.sql` script and a new `DataChangeQueue.sql` script.
+
+- **Post-Deployment Script (`Script.PostDeployment.sql`)**  
+  - Fixed the inclusion of `Service_Broker.sql` to properly reference it with `GO` statements for execution separation.
+
+- **TMS SQL Project (`TMS.sqlproj`)**  
+  - Updated the project file to include the new `DataChangeQueue.sql` in the deployment process.
+
+- **Post-Deployment Service Broker Script**  
+  - Introduced checks for the existence of Service Broker and ensured it is enabled only if it's disabled.
