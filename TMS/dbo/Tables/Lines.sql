@@ -15,63 +15,67 @@ ON [dbo].[Lines]
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
+    SET NOCOUNT ON;
+    
     DECLARE @message XML;
     DECLARE @operationType NVARCHAR(10);
     DECLARE @affectedIDs XML;
-
-    -- Determine the operation type and capture affected IDs
-    IF EXISTS (SELECT 1 FROM INSERTED)
-    BEGIN
-        IF EXISTS (SELECT 1 FROM DELETED)
-        BEGIN
-            -- Update: Capture the IDs of the rows that were updated
-            SET @operationType = 'UPDATE';
-
-            -- Get the IDs from the INSERTED table (all updated rows)
-            SET @affectedIDs = 
-                (SELECT [Id] FROM INSERTED FOR XML PATH('AffectedID'));
-        END
-        ELSE
-        BEGIN
-            -- Insert: Only the inserted rows are affected
-            SET @operationType = 'INSERT';
-            SET @affectedIDs = 
-                (SELECT [Id] FROM INSERTED FOR XML PATH('AffectedID'));
-        END
-    END
-    ELSE IF EXISTS (SELECT 1 FROM DELETED)
-    BEGIN
-        -- Delete: Only the deleted rows are affected
-        SET @operationType = 'DELETE';
-        SET @affectedIDs = 
-            (SELECT [Id] FROM DELETED FOR XML PATH('AffectedID'));
-    END
-
-    -- Create the message with the operation type and affected IDs
-    SET @message = 
-        (SELECT 
-            @operationType AS OperationType,
-            GETDATE() AS ChangeTime,
-            @affectedIDs AS AffectedIDs
-         FOR XML PATH('Notification'), ROOT('DataChangeNotification'));
-
-    -- Start a conversation
     DECLARE @dialog_handle UNIQUEIDENTIFIER;
-    BEGIN TRANSACTION;
-    
-    BEGIN DIALOG @dialog_handle 
-        FROM SERVICE [DataChangeService]
-        TO SERVICE 'DataChangeService'
-        ON CONTRACT [DataChangeContract]
-        WITH ENCRYPTION = OFF;
 
-    -- Send message to queue
-    SEND ON CONVERSATION @dialog_handle 
-    MESSAGE TYPE DataChangeMessage (@message);
+    -- Determine operation type
+    SELECT @operationType = CASE
+        WHEN EXISTS (SELECT 1 FROM INSERTED) AND EXISTS (SELECT 1 FROM DELETED) THEN 'UPDATE'
+        WHEN EXISTS (SELECT 1 FROM INSERTED) THEN 'INSERT'
+        WHEN EXISTS (SELECT 1 FROM DELETED) THEN 'DELETE'
+        ELSE NULL
+    END;
 
-    -- End the conversation
-    END CONVERSATION @dialog_handle;
+    IF @operationType IS NULL
+        RETURN; -- No rows affected
 
-    COMMIT TRANSACTION;
+    -- Build affected IDs XML
+    IF @operationType IN ('INSERT', 'UPDATE')
+        SET @affectedIDs = (
+            SELECT [Id] AS [ID]
+            FROM INSERTED
+            FOR XML PATH(''), ROOT('AffectedIDs')
+        );
+    ELSE
+        SET @affectedIDs = (
+            SELECT [Id] AS [ID]
+            FROM DELETED
+            FOR XML PATH(''), ROOT('AffectedIDs')
+        );
+
+    -- Construct the full message using modern XML construction
+    SET @message = (
+        SELECT
+            @operationType AS [OperationType],
+            SYSDATETIME() AS [ChangeTimeUTC],
+            @affectedIDs
+        FOR XML PATH('Notification'), ROOT('DataChangeNotification')
+    );
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        -- Start and send message
+        BEGIN DIALOG @dialog_handle 
+            FROM SERVICE [DataChangeService]
+            TO SERVICE 'DataChangeService'
+            ON CONTRACT [DataChangeContract]
+            WITH ENCRYPTION = OFF, LIFETIME = 3600;
+
+        SEND ON CONVERSATION @dialog_handle 
+            MESSAGE TYPE [DataChangeMessage] (@message);
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        
+        -- Re-throw the error
+        THROW;
+    END CATCH
 END;
-
