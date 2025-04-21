@@ -72,3 +72,34 @@ Created the [Action_Log](./TMS/dbo/Tables/Action_Log.sql) and [Lines](./TMS/dbo/
 
 - **Post-Deployment Service Broker Script**  
   - Introduced checks for the existence of Service Broker and ensured it is enabled only if it's disabled.
+
+## 0.1.1
+### Added
+- Added new stored procedure `ProcessDataChangeQueueMessage` for queue processing
+- Added transaction handling with TRY/CATCH blocks in trigger
+- Added explicit `SET NOCOUNT ON` to reduce network traffic
+- Added transaction rollback on errors
+- Added dialog lifetime specification (3600 seconds)
+- Added NULL check for operation type
+- Added modern XML construction with proper root elements
+- Added table variables for affected IDs and line data
+- Added XML validation and error handling
+- Added timeout handling for queue reception
+- Added proper conversation cleanup
+- Added support for different operation types (INSERT/UPDATE/DELETE)
+
+### Fixed/Updated
+- Refactored operation type detection using CASE statement
+- Improved XML generation for affected IDs
+- Updated timestamp to use `SYSDATETIME()` for UTC time
+- Standardized XML element naming conventions
+- Simplified affected ID collection logic
+- Improved error handling and re-throwing
+- Modernized XML parsing using nodes() method
+- Streamlined data return structure
+- Optimized database operations with table variables
+
+### Removed
+- Removed redundant conditional blocks for operation detection
+- Removed separate XML construction paths for different operations
+- Removed legacy XML parsing methods
