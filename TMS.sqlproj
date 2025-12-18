@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build">
-  <Sdk Name="Microsoft.Build.Sql" Version="0.2.0-preview" />
+  <Sdk Name="Microsoft.Build.Sql" Version="2.0.0" />
   <PropertyGroup>
     <Name>TMS</Name>
     <ProjectGuid>{C1475D66-3784-4C96-9D1E-A0241EE85726}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="dbo" />
-    <Folder Include="dbo\Tables" />
-    <Folder Include="Post-Deployment" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Post-Deployment\Service_Broker.sql" />
-    <None Include="Post-Deployment\DataChangeQueue.sql" />
-    <PostDeploy Include="Script.PostDeployment.sql" />
-  </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
   </Target>
