@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[usp_apollo_pipeline]
+CREATE PROCEDURE [dbo].[usp_opm_lines]
 AS
 BEGIN
   SET NOCOUNT ON;
